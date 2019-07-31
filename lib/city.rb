@@ -56,14 +56,14 @@ class City
 
   def the_real_trains(destination_id)
     returned_trains_current_location = DB.exec("SELECT * FROM stops WHERE city_id = #{@city_id};")
-    returned_trains_destination = DB.exec("SELECT * FROM stops WHERE city_id = #{destination_id};")
+    returned_trains_destination = DB.exec("SELECT * FROM stops WHERE city_id = #{destination_id.to_i};")
     trains = []
     returned_trains_current_location.each do |first_choice|
       first_train_id = first_choice.fetch("train_id")
       returned_trains_destination.each do |second_choice|
         if first_train_id == second_choice.fetch("train_id")
           matching_train = DB.exec("SELECT * FROM trains WHERE train_id = #{first_train_id};")
-          trains.push(matching_train.fetch("name"))
+          trains.push(matching_train.first.fetch("name"))
         end
       end
     end

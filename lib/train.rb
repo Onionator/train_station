@@ -38,4 +38,5 @@ class Train
     DB.exec("UPDATE trains SET name = '#{@name}' WHERE train_id = #{@train_id};")
   end
 
+
 end
