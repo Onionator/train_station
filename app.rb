@@ -15,11 +15,11 @@ get ('/')do
 end
 
 post ('/buy_ticket') do
-  current_location = params[:current_location]
-  future_location_barring_train_crash = params[:future_location_barring_train_crash]
-  city = DB.exec("SELECT * FROM cities WHERE name = '#{current_location}';")
-  city2 = DB.exec("SELECT * FROM cities WHERE name = '#{future_location_barring_train_crash}';")
-  binding.pry
-  @trains = city.the_real_trains(city2.first.fetch("city_id"))
+  @current_location = params[:current_location]
+  @future_location_barring_train_crash = params[:future_location_barring_train_crash]
+  city1 = DB.exec("SELECT * FROM cities WHERE name = '#{@current_location}';")
+  city = City.new({:name => city1.first.fetch("name"), :city_id => city1.first.fetch("city_id")})
+  city2 = DB.exec("SELECT * FROM cities WHERE name = '#{@future_location_barring_train_crash}';")
+  @trains = city.the_real_trains(city1.first.fetch("city_id"))
   erb :new_rider
 end

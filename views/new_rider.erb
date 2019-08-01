@@ -1,11 +1,11 @@
-<h2>You want to take </h2>
+<h2>Your options from <%= @current_location%> to <%= @future_location_barring_train_crash %></h2>
 
 <ul>
-
 <% @trains.each do |train| %>
-
-<li><%= train.name %> </li>
-
+<li>The <%= train %> </li>
 <% end %>
-
 </ul>
+
+<form class="" action="/" method="get">
+  <button type="submit" name="button">Choose a better destination</button>
+</form>

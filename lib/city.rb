@@ -41,13 +41,28 @@ class City
     returned_trains_current_location = DB.exec("SELECT * FROM stops WHERE city_id = #{@city_id};")
     returned_trains_destination = DB.exec("SELECT * FROM stops WHERE city_id = #{destination_id.to_i};")
     trains = []
-    returned_trains_current_location.each do |first_choice|
-      first_train_id = first_choice.fetch("train_id")
-      returned_trains_destination.each do |second_choice|
-        if first_train_id == second_choice.fetch("train_id")
-          matching_train = DB.exec("SELECT * FROM trains WHERE train_id = #{first_train_id};")
-          trains.push(matching_train.first.fetch("name"))
-        end
+    # returned_trains_current_location.each do |first_choice|
+    #   first_train_id = first_choice.fetch("train_id")
+    #   returned_trains_destination.each do |second_choice|
+    #     p "first #{first_train_id}"
+    #     p "second #{second_choice.fetch("train_id")}"
+    #     if first_train_id == second_choice.fetch("train_id")
+    #       second_choice_city_id = second_choice.fetch("city_id")
+    #       if second_choice_city_id == destination_id && @city_id ==
+    #         p first_train_id, second_choice.fetch("train_id")
+    #         matching_train = DB.exec("SELECT * FROM trains WHERE train_id = #{first_train_id};")
+    #         p matching_train.first.fetch("name")
+    #         trains.push(matching_train.first.fetch("name"))
+    #       end
+    #     end
+    #   end
+    # end
+    returned_trains_current_location.each do |train|
+      train_id = train.fetch("train_id")
+      train_city_ids = DB.exec("SELECT city_id FROM stops WHERE train_id = #{train_id};").values
+      if train_city_ids.include?([destination_id.to_s])
+        matching_train = DB.exec("SELECT * FROM trains WHERE train_id = #{train_id};")
+        trains.push(matching_train.first.fetch("name"))
       end
     end
     trains
