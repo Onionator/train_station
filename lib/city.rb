@@ -19,7 +19,7 @@ class City
     returned_cities.each do |city|
       name = city.fetch("name")
       id = city.fetch("city_id").to_i
-      cities.push(Train.new({:name => name, :city_id => id}))
+      cities.push(City.new({:name => name, :city_id => id}))
     end
     cities
   end
@@ -36,23 +36,6 @@ class City
     @name = name
     DB.exec("UPDATE cities SET name = '#{@name}' WHERE city_id = #{@city_id};")
   end
-
-  # def trains
-  #   travel_info = []
-  #   returned_trains = DB.exec("SELECT * FROM stops WHERE city_id = #{@city_id};")
-  #   returned_trains.each do |train|
-  #     array = []
-  #     train_id = train.fetch("train_id")
-  #     returned_cities = DB.exec("SELECT * FROM stops WHERE train_id = #{train_id};")
-  #     current_train = DB.exec("SELECT FROM trains WHERE train_id = #{train_id};")
-  #     array.push(current_train.fetch("name"))
-  #     returned_cities do |city|
-  #       current_city = DB.exec("SELECT FROM cities WHERE city_id = #{city.fetch("city_id")};")
-  #       array.push(current_city.fetch("name"))
-  #     end
-  #     travel_info.push(array)
-  #   end
-  # end
 
   def the_real_trains(destination_id)
     returned_trains_current_location = DB.exec("SELECT * FROM stops WHERE city_id = #{@city_id};")

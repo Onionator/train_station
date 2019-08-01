@@ -1,1 +1,17 @@
-<h1>Welcome to S & D's Train Station</h1>
+<h2>Enter your information below</h2>
+<h3>Current Location</h3>
+<form class="" action="buy_ticket" method="post">
+  <select name="current_location">
+    <% @cities.each do |city| %>
+      <option value="<%= city.name %>"><%= city.name %></option>
+    <% end %>
+  </select>
+<h3>Where do you want to go?</h3>
+  <select name="future_location_barring_train_crash">
+    <% @cities.each do |city| %>
+      <option value="<%= city.name %>"><%= city.name %></option>
+    <% end %>
+  </select>
+  <br>
+  <button type="submit" name="button">Click me to leave your CRUDdy city</button>
+</form>
